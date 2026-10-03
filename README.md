@@ -4,13 +4,14 @@ A systemless KernelSU Next module that maps Android `sans-serif` to Nunito on th
 
 ## Download
 
+- [v1.1.0 — Slightly Bolder 450](https://github.com/Doffi4/nunito-sans-oxygenos16/releases/tag/v1.1.0): Nunito `wght=450` for Android weight 400.
 - [v1.0.0 — Regular 400](https://github.com/Doffi4/nunito-sans-oxygenos16/releases/tag/v1.0.0): Nunito `wght=400` for Android weight 400.
 
 Install the ZIP in KernelSU Next → **Modules** → **Install from storage**. An active KernelSU metamodule is required. This ZIP is not for recovery flashing.
 
 ## What it changes
 
-The module overlays the ROM font configuration and replaces only the `sans-serif` family. Emoji, Noto fallback fonts, monospace, OEM-specific families and fonts bundled by apps are left alone. Nunito’s original font files are included under the SIL Open Font License; Android weight 100 maps to ExtraLight (`wght=200`) because Nunito has no 100 instance. Weight 900 maps to Black (`wght=900`).
+The module overlays the ROM font configuration and replaces only the `sans-serif` family. In v1.1.0, Android weight 400 uses `wght=450` for slightly denser regular text; v1.0.0 uses `wght=400`. Emoji, Noto fallback fonts, monospace, OEM-specific families and fonts bundled by apps are left alone. Nunito’s original font files are included under the SIL Open Font License; Android weight 100 maps to ExtraLight (`wght=200`) because Nunito has no 100 instance. Weight 900 maps to Black (`wght=900`).
 
 ## FontLoader
 

@@ -4,13 +4,14 @@ Systemless-модуль KernelSU Next, который назначает Nunito 
 
 ## Скачать
 
+- [v1.1.0 — Slightly Bolder 450](https://github.com/Doffi4/nunito-sans-oxygenos16/releases/tag/v1.1.0): для Android-веса 400 используется Nunito `wght=450`.
 - [v1.0.0 — Regular 400](https://github.com/Doffi4/nunito-sans-oxygenos16/releases/tag/v1.0.0): для Android-веса 400 используется Nunito `wght=400`.
 
 Установи ZIP через KernelSU Next → **Modules** → **Install from storage**. Нужен активный KernelSU metamodule. ZIP не предназначен для прошивки из recovery.
 
 ## Что меняется
 
-Модуль создаёт overlay конфигурации ROM и заменяет только семейство `sans-serif`. Emoji, Noto fallback, monospace, отдельные OEM-семейства и встроенные в приложения шрифты остаются без изменений. Файлы Nunito распространяются по SIL Open Font License. Так как у Nunito нет веса 100, он отображается ближайшим ExtraLight (`wght=200`). Вес 900 — Black (`wght=900`).
+Модуль создаёт overlay конфигурации ROM и заменяет только семейство `sans-serif`. В v1.1.0 Android-вес 400 использует `wght=450`, чтобы стандартный текст был чуть плотнее; в v1.0.0 используется `wght=400`. Emoji, Noto fallback, monospace, отдельные OEM-семейства и встроенные в приложения шрифты остаются без изменений. Файлы Nunito распространяются по SIL Open Font License. Так как у Nunito нет веса 100, он отображается ближайшим ExtraLight (`wght=200`). Вес 900 — Black (`wght=900`).
 
 ## FontLoader
 

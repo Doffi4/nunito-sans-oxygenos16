@@ -24,7 +24,7 @@ write_family_block() {
         <axis tag="wght" stylevalue="300" />
     </font>
     <font weight="400" style="normal">Nunito-VF.ttf
-        <axis tag="wght" stylevalue="400" />
+        <axis tag="wght" stylevalue="450" />
     </font>
     <font weight="500" style="normal">Nunito-VF.ttf
         <axis tag="wght" stylevalue="500" />
@@ -51,7 +51,7 @@ write_family_block() {
         <axis tag="wght" stylevalue="300" />
     </font>
     <font weight="400" style="italic">Nunito-Italic-VF.ttf
-        <axis tag="wght" stylevalue="400" />
+        <axis tag="wght" stylevalue="450" />
     </font>
     <font weight="500" style="italic">Nunito-Italic-VF.ttf
         <axis tag="wght" stylevalue="500" />
