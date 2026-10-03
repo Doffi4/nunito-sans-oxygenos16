@@ -1,6 +1,6 @@
 id=nunito_sans_ksu
-name=Nunito Sans (OxygenOS 16)
-version=1.1.0
-versionCode=2
+name=Nunito Sans (Android 16)
+version=1.2.0
+versionCode=3
 author=doffi14
-description=Systemless Nunito replacement for sans-serif on Android 16 / OxygenOS 16. Requires a KernelSU metamodule.
+description=Systemless generic sans-serif replacement for Android 16. Magisk, APatch or KernelSU Next (mount metamodule required). Optional FontLoader by JingMatrix.

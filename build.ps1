@@ -1,9 +1,13 @@
 param(
-    [string]$OutputPath = "outputs\Nunito_Sans_KSU.zip"
+    [ValidateSet(400, 450)]
+    [int]$RegularWeight = 450,
+    [string]$OutputPath = ''
 )
 
 $ErrorActionPreference = 'Stop'
 $Root = $PSScriptRoot
+$Variant = if ($RegularWeight -eq 400) { 'Regular-400' } else { 'Slightly-Bolder-450' }
+if (-not $OutputPath) { $OutputPath = "outputs\Nunito_Sans_v1.2.0_$Variant.zip" }
 if ([System.IO.Path]::IsPathRooted($OutputPath)) {
     $ZipPath = [System.IO.Path]::GetFullPath($OutputPath)
 } else {
@@ -14,6 +18,10 @@ $PackageFiles = @(
     'module.prop',
     'customize.sh',
     'post-fs-data.sh',
+    'late-load.sh',
+    'nunito.conf',
+    'tools/root-manager.sh',
+    'tools/prepare-fonts.sh',
     'tools/patch-sans-family.awk',
     'system/fonts/Nunito-VF.ttf',
     'system/fonts/Nunito-Italic-VF.ttf',
@@ -42,16 +50,29 @@ try {
     foreach ($relative in $PackageFiles) {
         $entryName = $relative.Replace('\', '/')
         $entry = $archive.CreateEntry($entryName, [System.IO.Compression.CompressionLevel]::Optimal)
+        $entry.LastWriteTime = [DateTimeOffset]::new(2026, 10, 3, 0, 0, 0, [TimeSpan]::Zero)
         $unixMode = if ($relative -like '*.sh') { [Convert]::ToInt32('81ED', 16) } else { [Convert]::ToInt32('81A4', 16) }
         $entry.ExternalAttributes = [int]($unixMode -shl 16)
 
-        $sourceStream = [System.IO.File]::OpenRead((Join-Path $Root $relative))
         $targetStream = $entry.Open()
         try {
-            $sourceStream.CopyTo($targetStream)
+            if ($relative -match '\.(sh|awk|prop|conf)$') {
+                $content = [System.IO.File]::ReadAllText((Join-Path $Root $relative)).Replace("`r`n", "`n")
+                if ($relative -eq 'nunito.conf') {
+                    $content = $content -replace '(?m)^regular_weight=\d+$', "regular_weight=$RegularWeight"
+                }
+                if ($relative -eq 'module.prop') {
+                    $content = $content -replace '(?m)^name=.*$', "name=Nunito Sans (Android 16, $RegularWeight)"
+                    $content = $content -replace '(?m)^version=.*$', "version=1.2.0 ($Variant)"
+                }
+                $payload = [System.Text.UTF8Encoding]::new($false).GetBytes($content)
+                $targetStream.Write($payload, 0, $payload.Length)
+            } else {
+                $sourceStream = [System.IO.File]::OpenRead((Join-Path $Root $relative))
+                try { $sourceStream.CopyTo($targetStream) } finally { $sourceStream.Dispose() }
+            }
         } finally {
             $targetStream.Dispose()
-            $sourceStream.Dispose()
         }
     }
 } finally {
@@ -104,7 +125,7 @@ try {
     if (Compare-Object -ReferenceObject $expectedNames -DifferenceObject $actualNames) {
         throw 'ZIP entries do not match the module allowlist.'
     }
-    foreach ($scriptName in @('customize.sh', 'post-fs-data.sh')) {
+    foreach ($scriptName in ($PackageFiles | Where-Object { $_ -like '*.sh' })) {
         $entry = $check.GetEntry($scriptName)
         $mode = ($entry.ExternalAttributes -shr 16) -band 0xFFFF
         if ($mode -ne [Convert]::ToInt32('81ED', 16)) {
